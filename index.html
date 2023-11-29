@@ -1,0 +1,55 @@
+<html lang="en">
+
+<head>
+  <title>Test App</title>
+  <meta name="viewport" content="user-scalable=no, width=device-width">
+  <script type="application/javascript">
+    if (!window.NEWSTORE) {
+      if (new URL(window.location.href).hash) {
+        window.NEWSTORE = JSON.parse(atob(new URL(window.location.href).hash.replace(/^#/, "")));
+      }
+
+      
+    }
+  </script>
+  <style>
+    label,
+    input {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  DATA:   
+
+  <div id="extended-attributes"></div>
+  <div id="newstore"></div>
+  <div id="newstore-raw"></div>
+  <script type="application/javascript">
+    if (window.NEWSTORE && window.NEWSTORE.contextProps) {
+      const translation = {
+        email_optin: 'Wants to receive emails from us'
+      }
+
+      Object.entries(window.NEWSTORE.contextProps.formData).map(function (entry) {
+        const key = entry[0];
+        const value = entry[1];
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        label.innerText = translation[key] || key
+        input.type = 'text'
+        input.name = key
+        input.value = value
+        label.append(input)
+        document.getElementById("extended-attributes").append(label);
+      });
+    }
+
+    document.getElementById("newstore").append(JSON.stringify(window.NEWSTORE));
+    document.getElementById("newstore-raw").append(window.NEWSTORE);
+
+  </script>
+</body>
+
+</html>
